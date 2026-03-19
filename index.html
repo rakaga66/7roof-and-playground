@@ -714,8 +714,8 @@
                         </div>
                     </div>
 
-                    <a href="https://hojas-auth9-production.up.railway.app/?redirect=https://rakaga66.github.io/7roof-and-playground/old.html" class="btn-play">🎮 العب الآن</a> <a href="old.html"
-                        class="btn-play" style="background:#28a745;">🛒 اشتر الآن </a>
+                    <a href="#" onclick="const auth = 'https://hojas-auth9-production.up.railway.app'; const game = window.location.href.split('index.html')[0] + 'game.html'; if (localStorage.getItem('hojas_token')) { window.location.href = game; } else { window.location.href = auth + '/?redirect=' + encodeURIComponent(game); } return false;" class="btn">العب الآن</a>
+                    <a href="old.html" class="btn-play">🛒 اشتر الآن </a>
                 </div>
             </div>
 
