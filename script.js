@@ -413,7 +413,8 @@ function saveSettings() {
 }
 
 function startGame() {
-    document.getElementById('homeScreen').style.display = 'none';
+    const home = document.getElementById('homeScreen');
+    if (home) home.style.display = 'none';
 
     teamSetup.currentRound = 1;
     scores = { team1: 0, team2: 0 };
@@ -532,7 +533,7 @@ function generateQuestionsQr() {
     container.style.display = 'flex';
     if (container.innerHTML !== '') return; // Already generated
 
-    const url = window.location.href.split('index.html')[0] + teamSetup.questionsSiteUrl;
+    const url = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1) + teamSetup.questionsSiteUrl;
 
     if (typeof QRCode !== 'undefined') {
         new QRCode(container, {
