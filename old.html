@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بلاي قراوند — هوجاس</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        @font-face {
+            font-family: 'HrofFont';
+            src: url('حروف.ttf') format('truetype');
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f0f4f8;
+            --white: #ffffff;
+            --dark: #0d1117;
+            --blue: #1a56db;
+            --blue-light: #e8f0fe;
+            --green: #0e9f6e;
+            --green-light: #e6f9f2;
+            --red: #e02424;
+            --red-light: #fde8e8;
+            --gray: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 48px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-logo {
+            font-family: 'HrofFont', sans-serif;
+            font-size: 1.5rem;
+            color: var(--blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.3
+            }
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--blue);
+            color: var(--white);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .nav-back:hover {
+            background: #1447b8;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            margin-top: 64px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 64px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 48px;
+        }
+
+        .hero-left {
+            max-width: 560px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--blue-light);
+            color: var(--blue);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-family: 'HrofFont', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            color: var(--dark);
+            margin-bottom: 16px;
+        }
+
+        .hero-title span {
+            color: var(--blue);
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 32px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--blue);
+            color: var(--white);
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(26, 86, 219, 0.3);
+        }
+
+        .hero-cta:hover {
+            background: #1447b8;
+            transform: translateY(-2px);
+        }
+
+        /* hero stats */
+        .hero-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px 32px;
+            min-width: 240px;
+        }
+
+        .stat-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-family: 'HrofFont', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+
+        .stat-value.blue {
+            color: var(--blue);
+        }
+
+        .stat-value.green {
+            color: var(--green);
+        }
+
+        .stat-value.red {
+            color: var(--red);
+        }
+
+        .stat-divider {
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── SECTION ── */
+        .section {
+            padding: 56px 48px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'HrofFont', sans-serif;
+            font-size: 1.6rem;
+            color: var(--dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--blue);
+            border-radius: 2px;
+        }
+
+        .section-sub {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 32px;
+            padding-right: 16px;
+        }
+
+        /* ── GAMES GRID ── */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .game-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: var(--shadow);
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .game-card.featured {
+            border-color: var(--blue);
+            border-width: 2px;
+        }
+
+        /* card top strip */
+        .card-strip {
+            height: 6px;
+        }
+
+        .strip-blue {
+            background: var(--blue);
+        }
+
+        .strip-gray {
+            background: var(--border);
+        }
+
+        .card-body {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* status */
+        .card-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+            width: fit-content;
+        }
+
+        .status-live {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .status-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: blink 1.5s infinite;
+        }
+
+        .status-soon {
+            background: var(--bg);
+            color: var(--gray);
+        }
+
+        /* icon */
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 1.6rem;
+        }
+
+        .icon-blue {
+            background: var(--blue-light);
+        }
+
+        .icon-gray {
+            background: var(--bg);
+            opacity: 0.5;
+        }
+
+        .hroof-icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--blue), #0e4faf);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.3);
+        }
+
+        .hroof-letter {
+            font-family: 'HrofFont', sans-serif;
+            font-size: 1.8rem;
+            color: white;
+            line-height: 1;
+        }
+
+        .card-name {
+            font-family: 'HrofFont', sans-serif;
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .card-name.dimmed {
+            color: var(--gray);
+            opacity: 0.5;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 50px;
+            background: var(--bg);
+            color: var(--gray);
+            border: 1px solid var(--border);
+        }
+
+        .tag-blue {
+            background: var(--blue-light);
+            color: var(--blue);
+            border-color: rgba(26, 86, 219, 0.2);
+        }
+
+        .card-desc {
+            font-size: 0.88rem;
+            color: var(--gray);
+            line-height: 1.7;
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        /* divider */
+        .card-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 16px;
+        }
+
+        /* meta */
+        .card-meta {
+            display: flex;
+            gap: 0;
+            background: var(--bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .meta-item {
+            flex: 1;
+            padding: 10px 8px;
+            text-align: center;
+            border-left: 1px solid var(--border);
+        }
+
+        .meta-item:last-child {
+            border-left: none;
+        }
+
+        .meta-val {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--blue);
+            display: block;
+        }
+
+        .meta-lbl {
+            font-size: 0.62rem;
+            color: var(--gray);
+        }
+
+        /* buttons */
+        .btn-play {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: var(--blue);
+            color: var(--white);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.25);
+        }
+
+        .btn-play:hover {
+            background: #1447b8;
+        }
+
+        .btn-start-game {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: #f39c12;
+            color: var(--white);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.25);
+            margin-bottom: 10px;
+        }
+
+        .btn-start-game:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+        }
+
+        .btn-disabled {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            background: var(--bg);
+            color: var(--gray);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: default;
+        }
+
+        /* ── COMING BANNER ── */
+        .coming-banner {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-right: 4px solid var(--blue);
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .banner-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--blue-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .banner-text {
+            font-size: 0.88rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .banner-text strong {
+            color: var(--dark);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            padding: 24px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-brand {
+            font-family: 'HrofFont', sans-serif;
+            font-size: 1.1rem;
+            color: var(--blue);
+        }
+
+        .footer-copy {
+            font-size: 0.78rem;
+            color: var(--gray);
+        }
+
+        .footer-link {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+
+            nav,
+            .hero,
+            .section,
+            footer {
+                padding-right: 20px;
+                padding-left: 20px;
+            }
+
+            .hero {
+                flex-direction: column;
+                padding-top: 40px;
+            }
+
+            .hero-stats {
+                width: 100%;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a class="nav-logo" href="#">
+            <div class="nav-logo-dot"></div>
+            بلاي قراوند
+        </a>
+        <a href="old.html" class="nav-back">
+            ← العودة للعبة
+        </a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-left">
+            <div class="hero-badge">متجر ألعاب هوجاس</div>
+            <h1 class="hero-title">بلاي <span>قراوند</span></h1>
+            <p class="hero-desc">تجارب تفاعلية صُنعت بالحب — اختر لعبتك وابدأ المتعة مع أصدقائك في أي مكان.</p>
+            <a href="#games" class="hero-cta">استعرض الألعاب ↓</a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-row">
+                <span class="stat-label">ألعاب متاحة</span>
+                <span class="stat-value green">٥ لعبة</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-row">
+                <span class="stat-label">قيد التطوير</span>
+                <span class="stat-value blue">٥ ألعاب</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-row">
+                <span class="stat-label">لاعبون نشطون</span>
+                <span class="stat-value red">٢٦+</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-row">
+                <span class="stat-label">كم مبيعات العابنا
+
+                </span>
+                <span class="stat-value green"> 172 شخص
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <div class="section" id="games">
+        <div class="section-title">الألعاب</div>
+        <p class="section-sub">اختر تجربتك التفاعلية</p>
+
+        <div class="games-grid">
+
+            <!-- حروف -->
+            <div class="game-card featured">
+                <div class="card-strip strip-blue"></div>
+                <div class="card-body">
+                    <div class="card-status status-live">متاح الآن</div>
+
+                    <div
+                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
+                        <img src="portal/hroof_game.png" alt="لعبة حروف"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+
+                    <div class="card-name">لعبة حروف</div>
+
+                    <div class="card-tags">
+                        <span class="tag tag-blue">تنافسي</span>
+                        <span class="tag tag-blue">أجراس ذكية</span>
+                        <span class="tag">جماعي</span>
+                        <span class="tag">18.99 SAR
+                        </span>
+                    </div>
+
+                    <p class="card-desc">اللعبة الكلاسيكية الشهيرة برؤية عصرية وتفاعلية. اختبر معلوماتك وسرعة بديهتك مع
+                        أصدقائك.
+                        وايضا تحتوي على اكثر من 700 سوال </p>
+
+                    <div class="card-divider"></div>
+
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <span class="meta-val">٤+</span>
+                            <span class="meta-lbl">لاعبين</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val">∞</span>
+                            <span class="meta-lbl">جولات</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val">18.99 SAR</span>
+                            <span class="meta-lbl">السعر</span>
+                        </div>
+                    </div>
+
+                    <a href="https://hojas-auth9-production.up.railway.app/?redirect=old.html" class="btn">العب الآن</a> <a href="old.html"
+                        class="btn-play">🛒 اشتر الآن </a>
+                </div>
+            </div>
+
+            <!-- تحدي الصور -->
+            <div class="game-card featured">
+                <div class="card-strip strip-blue" style="background: #2ecc71;"></div>
+                <div class="card-body">
+                    <div class="card-status status-live">متاح الآن</div>
+
+                    <div
+                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
+                        <img src="portal/tahadi_suwar.png" alt="تحدي الصور"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+
+                    <div class="card-name">تحدي الصور</div>
+
+                    <div class="card-tags">
+                        <span class="tag tag-blue" style="background: #e6f9f2; color: #2ecc71;">سهل</span>
+                        <span class="tag tag-blue">عائلي</span>
+                        <span class="tag">تخمين</span>
+                        <span class="tag">29.00 SAR</span>
+                    </div>
+
+                    <p class="card-desc">لعبة تحدي بالصور ممتعة وسهلة الفهم، تظهر على الشاشة صور تلمّح لاسم معين، وعلى
+                        اللاعبين تخمين الإجابة بأسرع وقت. مناسبة للجلسات العائلية وتجمعات الأصدقاء.</p>
+
+                    <div class="card-divider"></div>
+
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <span class="meta-val">٢+</span>
+                            <span class="meta-lbl">لاعبين</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val">متنوع</span>
+                            <span class="meta-lbl">جولات</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val" style="color: #2ecc71;">29.00 SAR</span>
+                            <span class="meta-lbl">السعر</span>
+                        </div>
+                    </div>
+
+                    <a href="https://salla.sa/maben-al8lob/azPxNZl" class="btn-play" style="background: #2ecc71;">🛒
+                        اشتر الآن </a>
+                </div>
+            </div>
+
+            <!-- كرت جريء -->
+            <div class="game-card featured">
+                <div class="card-strip strip-blue" style="background: #9b59b6;"></div>
+                <div class="card-body">
+                    <div class="card-status status-live">متاح الآن</div>
+
+                    <div
+                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
+                        <img src="portal/bold_card.png" alt="كرت جريء"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+
+                    <div class="card-name">كرت جريء</div>
+
+                    <div class="card-tags">
+                        <span class="tag tag-blue" style="background: #f3e5f5; color: #9b59b6;">جريء</span>
+                        <span class="tag tag-blue">تحديات</span>
+                        <span class="tag">جماعي</span>
+                        <span class="tag">15.00 SAR</span>
+                    </div>
+
+                    <p class="card-desc">🎯 جاوب بصراحة أو استعد تنكشف! 😈 هذا الكرت مو لأي أحد… بس للي عنده الجرأة
+                        يواجه الحقيقة بدون لفّ ودوران. جاهز تلعب؟ 😜🔥</p>
+
+                    <div class="card-divider"></div>
+
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <span class="meta-val">٢+</span>
+                            <span class="meta-lbl">لاعبين</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val">15</span>
+                            <span class="meta-lbl">بطاقات</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val" style="color: #9b59b6;">15.00 SAR</span>
+                            <span class="meta-lbl">السعر</span>
+                        </div>
+                    </div>
+
+                    <a href="https://salla.sa/maben-al8lob/vAoxxEZ" class="btn-play" style="background: #9b59b6;">🛒
+                        اشتر الآن </a>
+                </div>
+            </div>
+
+            <!-- مآبين آلقلوب 1 -->
+            <div class="game-card featured">
+                <div class="card-strip strip-blue" style="background: #d35400;"></div>
+                <div class="card-body">
+                    <div class="card-status status-live">متاح الآن</div>
+
+                    <div
+                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
+                        <img src="portal/maben_alqlub_1.png" alt="مآبين آلقلوب 1"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+
+                    <div class="card-name">مآبين آلقلوب 1</div>
+
+                    <div class="card-tags">
+                        <span class="tag tag-blue" style="background: #fff5e6; color: #d35400;">عاطفي</span>
+                        <span class="tag tag-blue">عميق</span>
+                        <span class="tag">رقمي</span>
+                        <span class="tag">14.99 SAR</span>
+                    </div>
+
+                    <p class="card-desc">لعبة أسئلة تفتح مواضيع وتخليك تفكر وتفهم اللي تحبه أكثر. كل كرت بيخليك تشوف
+                        زاوية جديدة من الشخص اللي تحبه. مناسبة للأزواج والأصدقاء. ❤️</p>
+
+                    <div class="card-divider"></div>
+
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <span class="meta-val">٢</span>
+                            <span class="meta-lbl">لاعبين</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val">15</span>
+                            <span class="meta-lbl"> كرت</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val" style="color: #d35400;">14.99 SAR</span>
+                            <span class="meta-lbl">السعر</span>
+                        </div>
+                    </div>
+
+                    <a href="https://salla.sa/maben-al8lob/qGedWrK" class="btn-play" style="background: #d35400;">🛒
+                        اشتر الآن </a>
+                </div>
+            </div>
+
+            <!-- مآبين آلقلوب 2 -->
+            <div class="game-card featured">
+                <div class="card-strip strip-blue" style="background: #e74c3c;"></div>
+                <div class="card-body">
+                    <div class="card-status status-live">متاح الآن</div>
+
+                    <div
+                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
+                        <img src="portal/maben_alqlub_2.png" alt="مآبين آلقلوب 2"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+
+                    <div class="card-name">مآبين آلقلوب 2</div>
+
+                    <div class="card-tags">
+                        <span class="tag tag-blue" style="background: #fde8e8; color: #e74c3c;">عاطفي</span>
+                        <span class="tag tag-blue">اجتماعي</span>
+                        <span class="tag">بطاقات</span>
+                        <span class="tag">29.00 SAR</span>
+                    </div>
+
+                    <p class="card-desc">لعبة بطابع عاطفي واجتماعي، مصمّمة بأسلوب بسيط وممتع تخليك تتقرب من اللي حولك
+                        بطريقة مختلفة. تفتح قلوب، وتقرّب المسافات. 💞</p>
+
+                    <div class="card-divider"></div>
+
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <span class="meta-val">٢+</span>
+                            <span class="meta-lbl">لاعبين</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val">٣٥+</span>
+                            <span class="meta-lbl">كرت</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-val" style="color: #e74c3c;">29.00 SAR</span>
+                            <span class="meta-lbl">السعر</span>
+                        </div>
+                    </div>
+
+                    <a href="https://salla.sa/maben-al8lob/vAoxxEZ" class="btn-play" style="background: #e74c3c;">🛒
+                        اشتر الآن </a>
+                </div>
+            </div>
+
+            <!-- قريباً 1 -->
+            <div class="game-card">
+                <div class="card-strip strip-gray"></div>
+                <div class="card-body">
+                    <div class="card-status status-soon">قريباً</div>
+                    <div class="card-icon icon-gray">🧩</div>
+                    <div class="card-name dimmed">مشروع سري</div>
+                    <div class="card-tags" style="opacity:0.4;">
+                        <span class="tag">ألغاز</span>
+                        <span class="tag">استراتيجية</span>
+                    </div>
+                    <p class="card-desc" style="opacity:0.5;">شيء مختلف تماماً في الطريق. هوجاس تُفاجئكم بتجربة لم
+                        تتوقعوها.</p>
+                    <div class="card-divider"></div>
+                    <div class="card-meta" style="opacity:0.4;">
+                        <div class="meta-item"><span class="meta-val">—</span><span class="meta-lbl">لاعبين</span></div>
+                        <div class="meta-item"><span class="meta-val">—</span><span class="meta-lbl">مستويات</span>
+                        </div>
+                        <div class="meta-item"><span class="meta-val">—</span><span class="meta-lbl">السعر</span></div>
+                    </div>
+                    <div class="btn-disabled">⏳ قريباً</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="coming-banner">
+            <div class="banner-icon">🚀</div>
+            <p class="banner-text">
+                <strong>هوجاس في طور الإبداع — </strong>
+                المزيد من الألعاب التفاعلية قادمة. تابعنا لتكون أول من يلعب.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <span class="footer-brand">بلاي قراوند · هوجاس</span>
+        <span class="footer-copy">
+            © 2026 هوجاس — صُنع بالحب للاعبين العرب &nbsp;|&nbsp;
+            <a href="old.html" class="footer-link">العودة للعبة</a>
+        </span>
+    </footer>
+
+</body>
+
+</html>
