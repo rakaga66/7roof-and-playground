@@ -12,6 +12,17 @@
     <script>
         (function() {
             const AUTH_SERVER = 'https://hojas-auth9-production.up.railway.app';
+            
+            // تحقق إذا كان التوكن قادماً في الرابط (Token Handoff)
+            const urlParams = new URLSearchParams(window.location.search);
+            const tokenFromUrl = urlParams.get('token');
+            if (tokenFromUrl) {
+                localStorage.setItem('hojas_token', tokenFromUrl);
+                // تنظيف الرابط من التوكن
+                const cleanUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+
             const token = localStorage.getItem('hojas_token');
             const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
             
