@@ -7,6 +7,20 @@
     <title>بلاي قراوند — هوجاس</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap"
         rel="stylesheet" />
+        
+    <!-- Auth Check (Automatic Redirect) -->
+    <script>
+        (function() {
+            const AUTH_SERVER = 'https://hojas-auth9-production.up.railway.app';
+            const token = localStorage.getItem('hojas_token');
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            
+            if (!token && !isLocal) {
+                window.location.href = AUTH_SERVER + '/?redirect=' + encodeURIComponent(window.location.href);
+            }
+        })();
+    </script>
+
     <style>
         @font-face {
             font-family: 'HrofFont';
@@ -617,6 +631,24 @@
             }
         }
     </style>
+    <script>
+        function goToGame() {
+            try {
+                const AUTH_SERVER = 'https://hojas-auth9-production.up.railway.app';
+                const gameURL = new URL('game.html', window.location.href).href;
+                const token = localStorage.getItem('hojas_token');
+
+                if (token) {
+                    window.location.href = gameURL;
+                } else {
+                    window.location.href = AUTH_SERVER + '/?redirect=' + encodeURIComponent(gameURL);
+                }
+            } catch (e) {
+                console.error("Auth Error:", e);
+                window.location.href = 'game.html'; // Fallback
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -714,7 +746,7 @@
                         </div>
                     </div>
 
-                    <a href="#" onclick="const auth = 'https://hojas-auth9-production.up.railway.app'; const game = window.location.origin + '/game.html'; if (localStorage.getItem('hojas_token')) { window.location.href = game; } else { window.location.href = auth + '?redirect=' + encodeURIComponent(game); } return false;" class="btn">العب الآن</a>
+                    <a href="javascript:void(0)" onclick="goToGame()" class="btn-start-game">العب الآن</a>
                     <a href="old.html" class="btn-play">🛒 اشتر الآن </a>
                 </div>
             </div>
