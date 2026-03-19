@@ -18,9 +18,20 @@
     <script>
         (function() {
             const AUTH_SERVER = 'https://hojas-auth9-production.up.railway.app';
+            
+            // تحقق إذا كان التوكن قادماً في الرابط (Token Handoff)
+            const urlParams = new URLSearchParams(window.location.search);
+            const tokenFromUrl = urlParams.get('token');
+            if (tokenFromUrl) {
+                localStorage.setItem('hojas_token', tokenFromUrl);
+                // تنظيف الرابط من التوكن
+                const cleanUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+
             const token = localStorage.getItem('hojas_token');
             if (!token) {
-                window.location.href = AUTH_SERVER + '/?redirect=' + encodeURIComponent(window.location.href);
+                window.location.href = AUTH_SERVER + '/?redirect=' + window.location.href;
             }
         })();
     </script>
