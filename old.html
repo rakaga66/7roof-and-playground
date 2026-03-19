@@ -37,7 +37,7 @@
                 <span class="logo-line3">هوجاس</span>
             </div>
 
-            <button class="home-main-btn" onclick="const auth = 'https://hojas-auth9-production.up.railway.app'; const game = window.location.href.split('old.html')[0] + 'game.html'; if (localStorage.getItem('hojas_token')) { window.location.href = game; } else { window.location.href = auth + '/?redirect=' + encodeURIComponent(game); } return false;">
+            <button class="home-main-btn" onclick="const auth = 'https://hojas-auth9-production.up.railway.app'; const game = window.location.origin + '/game.html'; if (localStorage.getItem('hojas_token')) { window.location.href = game; } else { window.location.href = auth + '?redirect=' + encodeURIComponent(game); } return false;">
                 <span>العب</span>
             </button>
 
