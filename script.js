@@ -356,14 +356,9 @@ window.showRules = showRules;
 window.closeRules = closeRules;
 
 function showSettings() {
-    const pass = prompt('يرجى إدخال كلمة سر الإدارة لبدء التعديل:');
-    if (pass !== 'Rr74417441@') {
-        alert('كلمة السر غير صحيحة!');
-        return;
-    }
-
     // إخفاء الشاشات الأخرى
-    document.getElementById('homeScreen').style.display = 'none';
+    const home = document.getElementById('homeScreen');
+    if (home) home.style.display = 'none';
     const mainArea = document.querySelector('.main-area');
     const sidebar = document.querySelector('.sidebar');
     if (mainArea) mainArea.style.display = 'none';
