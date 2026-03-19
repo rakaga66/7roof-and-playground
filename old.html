@@ -2,950 +2,359 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>بلاي قراوند — هوجاس</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <style>
-        @font-face {
-            font-family: 'HrofFont';
-            src: url('حروف.ttf') format('truetype');
-        }
-
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg: #f0f4f8;
-            --white: #ffffff;
-            --dark: #0d1117;
-            --blue: #1a56db;
-            --blue-light: #e8f0fe;
-            --green: #0e9f6e;
-            --green-light: #e6f9f2;
-            --red: #e02424;
-            --red-light: #fde8e8;
-            --gray: #6b7280;
-            --border: #e5e7eb;
-            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg);
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-
-        /* ── NAV ── */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            padding: 0 48px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: var(--shadow);
-        }
-
-        .nav-logo {
-            font-family: 'HrofFont', sans-serif;
-            font-size: 1.5rem;
-            color: var(--blue);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-logo-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--green);
-            animation: blink 2s infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حروف مع هوجاس</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script src="pdfData.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://buzzer-server-production-331c.up.railway.app/socket.io/socket.io.js"></script>
+    
+    <!-- Auth Check -->
+    <script>
+        (function() {
+            const AUTH_SERVER = 'https://hojas-auth9-production.up.railway.app';
+            const token = localStorage.getItem('hojas_token');
+            if (!token) {
+                window.location.href = AUTH_SERVER + '/?redirect=' + window.location.href;
             }
-
-            50% {
-                opacity: 0.3
-            }
-        }
-
-        .nav-back {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--blue);
-            color: var(--white);
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .nav-back:hover {
-            background: #1447b8;
-        }
-
-        /* ── HERO ── */
-        .hero {
-            margin-top: 64px;
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            padding: 64px 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 48px;
-        }
-
-        .hero-left {
-            max-width: 560px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--blue-light);
-            color: var(--blue);
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .hero-title {
-            font-family: 'HrofFont', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            line-height: 1.1;
-            color: var(--dark);
-            margin-bottom: 16px;
-        }
-
-        .hero-title span {
-            color: var(--blue);
-        }
-
-        .hero-desc {
-            font-size: 1rem;
-            color: var(--gray);
-            line-height: 1.8;
-            margin-bottom: 32px;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--blue);
-            color: var(--white);
-            padding: 14px 32px;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.2s;
-            box-shadow: 0 4px 14px rgba(26, 86, 219, 0.3);
-        }
-
-        .hero-cta:hover {
-            background: #1447b8;
-            transform: translateY(-2px);
-        }
-
-        /* hero stats */
-        .hero-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 28px 32px;
-            min-width: 240px;
-        }
-
-        .stat-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--gray);
-            font-weight: 600;
-        }
-
-        .stat-value {
-            font-family: 'HrofFont', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 900;
-        }
-
-        .stat-value.blue {
-            color: var(--blue);
-        }
-
-        .stat-value.green {
-            color: var(--green);
-        }
-
-        .stat-value.red {
-            color: var(--red);
-        }
-
-        .stat-divider {
-            height: 1px;
-            background: var(--border);
-        }
-
-        /* ── SECTION ── */
-        .section {
-            padding: 56px 48px;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-family: 'HrofFont', sans-serif;
-            font-size: 1.6rem;
-            color: var(--dark);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 24px;
-            background: var(--blue);
-            border-radius: 2px;
-        }
-
-        .section-sub {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 32px;
-            padding-right: 16px;
-        }
-
-        /* ── GAMES GRID ── */
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .game-card {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: var(--shadow);
-        }
-
-        .game-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .game-card.featured {
-            border-color: var(--blue);
-            border-width: 2px;
-        }
-
-        /* card top strip */
-        .card-strip {
-            height: 6px;
-        }
-
-        .strip-blue {
-            background: var(--blue);
-        }
-
-        .strip-gray {
-            background: var(--border);
-        }
-
-        .card-body {
-            padding: 24px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* status */
-        .card-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 50px;
-            margin-bottom: 16px;
-            width: fit-content;
-        }
-
-        .status-live {
-            background: var(--green-light);
-            color: var(--green);
-        }
-
-        .status-live::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--green);
-            animation: blink 1.5s infinite;
-        }
-
-        .status-soon {
-            background: var(--bg);
-            color: var(--gray);
-        }
-
-        /* icon */
-        .card-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            font-size: 1.6rem;
-        }
-
-        .icon-blue {
-            background: var(--blue-light);
-        }
-
-        .icon-gray {
-            background: var(--bg);
-            opacity: 0.5;
-        }
-
-        .hroof-icon-box {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--blue), #0e4faf);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.3);
-        }
-
-        .hroof-letter {
-            font-family: 'HrofFont', sans-serif;
-            font-size: 1.8rem;
-            color: white;
-            line-height: 1;
-        }
-
-        .card-name {
-            font-family: 'HrofFont', sans-serif;
-            font-size: 1.5rem;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .card-name.dimmed {
-            color: var(--gray);
-            opacity: 0.5;
-        }
-
-        .card-tags {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .tag {
-            font-size: 0.65rem;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 50px;
-            background: var(--bg);
-            color: var(--gray);
-            border: 1px solid var(--border);
-        }
-
-        .tag-blue {
-            background: var(--blue-light);
-            color: var(--blue);
-            border-color: rgba(26, 86, 219, 0.2);
-        }
-
-        .card-desc {
-            font-size: 0.88rem;
-            color: var(--gray);
-            line-height: 1.7;
-            flex: 1;
-            margin-bottom: 20px;
-        }
-
-        /* divider */
-        .card-divider {
-            height: 1px;
-            background: var(--border);
-            margin-bottom: 16px;
-        }
-
-        /* meta */
-        .card-meta {
-            display: flex;
-            gap: 0;
-            background: var(--bg);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-
-        .meta-item {
-            flex: 1;
-            padding: 10px 8px;
-            text-align: center;
-            border-left: 1px solid var(--border);
-        }
-
-        .meta-item:last-child {
-            border-left: none;
-        }
-
-        .meta-val {
-            font-size: 0.9rem;
-            font-weight: 800;
-            color: var(--blue);
-            display: block;
-        }
-
-        .meta-lbl {
-            font-size: 0.62rem;
-            color: var(--gray);
-        }
-
-        /* buttons */
-        .btn-play {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            background: var(--blue);
-            color: var(--white);
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.25);
-        }
-
-        .btn-play:hover {
-            background: #1447b8;
-        }
-
-        .btn-start-game {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            background: #f39c12;
-            color: var(--white);
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.25);
-            margin-bottom: 10px;
-        }
-
-        .btn-start-game:hover {
-            background: #e67e22;
-            transform: translateY(-2px);
-        }
-
-        .btn-disabled {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
-            background: var(--bg);
-            color: var(--gray);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.88rem;
-            cursor: default;
-        }
-
-        /* ── COMING BANNER ── */
-        .coming-banner {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-right: 4px solid var(--blue);
-            border-radius: 12px;
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 24px;
-        }
-
-        .banner-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: var(--blue-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .banner-text {
-            font-size: 0.88rem;
-            color: var(--gray);
-            line-height: 1.6;
-        }
-
-        .banner-text strong {
-            color: var(--dark);
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            background: var(--white);
-            border-top: 1px solid var(--border);
-            padding: 24px 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .footer-brand {
-            font-family: 'HrofFont', sans-serif;
-            font-size: 1.1rem;
-            color: var(--blue);
-        }
-
-        .footer-copy {
-            font-size: 0.78rem;
-            color: var(--gray);
-        }
-
-        .footer-link {
-            color: var(--blue);
-            text-decoration: none;
-        }
-
-        .footer-link:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 900px) {
-
-            nav,
-            .hero,
-            .section,
-            footer {
-                padding-right: 20px;
-                padding-left: 20px;
-            }
-
-            .hero {
-                flex-direction: column;
-                padding-top: 40px;
-            }
-
-            .hero-stats {
-                width: 100%;
-            }
-
-            .games-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+        })();
+    </script>
 </head>
 
 <body>
 
-    <nav>
-        <a class="nav-logo" href="#">
-            <div class="nav-logo-dot"></div>
-            بلاي قراوند
-        </a>
-        <a href="old.html" class="nav-back">
-            ← العودة للعبة
-        </a>
-    </nav>
-
-    <section class="hero">
-        <div class="hero-left">
-            <div class="hero-badge">متجر ألعاب هوجاس</div>
-            <h1 class="hero-title">بلاي <span>قراوند</span></h1>
-            <p class="hero-desc">تجارب تفاعلية صُنعت بالحب — اختر لعبتك وابدأ المتعة مع أصدقائك في أي مكان.</p>
-            <a href="#games" class="hero-cta">استعرض الألعاب ↓</a>
+    <!-- ═══ SPLASH ═══ -->
+    <div id="splashScreen">
+        <div class="splash-logo">
+            <span class="sl1">حروف</span>
+            <span class="sl2">مع</span>
+            <span class="sl3">هوجاس</span>
         </div>
-
-        <div class="hero-stats">
-            <div class="stat-row">
-                <span class="stat-label">ألعاب متاحة</span>
-                <span class="stat-value green">٥ لعبة</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-row">
-                <span class="stat-label">قيد التطوير</span>
-                <span class="stat-value blue">٥ ألعاب</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-row">
-                <span class="stat-label">لاعبون نشطون</span>
-                <span class="stat-value red">٢٦+</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-row">
-                <span class="stat-label">كم مبيعات العابنا
-
-                </span>
-                <span class="stat-value green"> 172 شخص
-                </span>
-            </div>
+        <div class="splash-bar-wrap">
+            <div class="splash-bar"></div>
         </div>
-    </section>
+        <span class="splash-tag">بلاي قراوند · هوجاس</span>
+    </div>
 
-    <div class="section" id="games">
-        <div class="section-title">الألعاب</div>
-        <p class="section-sub">اختر تجربتك التفاعلية</p>
-
-        <div class="games-grid">
-
-            <!-- حروف -->
-            <div class="game-card featured">
-                <div class="card-strip strip-blue"></div>
-                <div class="card-body">
-                    <div class="card-status status-live">متاح الآن</div>
-
-                    <div
-                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
-                        <img src="portal/hroof_game.png" alt="لعبة حروف"
-                            style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-
-                    <div class="card-name">لعبة حروف</div>
-
-                    <div class="card-tags">
-                        <span class="tag tag-blue">تنافسي</span>
-                        <span class="tag tag-blue">أجراس ذكية</span>
-                        <span class="tag">جماعي</span>
-                        <span class="tag">18.99 SAR
-                        </span>
-                    </div>
-
-                    <p class="card-desc">اللعبة الكلاسيكية الشهيرة برؤية عصرية وتفاعلية. اختبر معلوماتك وسرعة بديهتك مع
-                        أصدقائك.
-                        وايضا تحتوي على اكثر من 700 سوال </p>
-
-                    <div class="card-divider"></div>
-
-                    <div class="card-meta">
-                        <div class="meta-item">
-                            <span class="meta-val">٤+</span>
-                            <span class="meta-lbl">لاعبين</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val">∞</span>
-                            <span class="meta-lbl">جولات</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val">18.99 SAR</span>
-                            <span class="meta-lbl">السعر</span>
-                        </div>
-                    </div>
-
-                    <a href="https://hojas-auth9-production.up.railway.app/?redirect=old.html" class="btn">العب الآن</a> <a href="old.html"
-                        class="btn-play">🛒 اشتر الآن </a>
-                </div>
+    <div class="home-screen" id="homeScreen">
+        <div class="home-content">
+            <div class="logo-home">
+                <span class="logo-line1">حروف</span>
+                <span class="logo-line2">مع</span>
+                <span class="logo-line3">هوجاس</span>
             </div>
 
-            <!-- تحدي الصور -->
-            <div class="game-card featured">
-                <div class="card-strip strip-blue" style="background: #2ecc71;"></div>
-                <div class="card-body">
-                    <div class="card-status status-live">متاح الآن</div>
+            <button class="home-main-btn" onclick="startGame()">
+                <span>العب</span>
+            </button>
 
-                    <div
-                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
-                        <img src="portal/tahadi_suwar.png" alt="تحدي الصور"
-                            style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-
-                    <div class="card-name">تحدي الصور</div>
-
-                    <div class="card-tags">
-                        <span class="tag tag-blue" style="background: #e6f9f2; color: #2ecc71;">سهل</span>
-                        <span class="tag tag-blue">عائلي</span>
-                        <span class="tag">تخمين</span>
-                        <span class="tag">29.00 SAR</span>
-                    </div>
-
-                    <p class="card-desc">لعبة تحدي بالصور ممتعة وسهلة الفهم، تظهر على الشاشة صور تلمّح لاسم معين، وعلى
-                        اللاعبين تخمين الإجابة بأسرع وقت. مناسبة للجلسات العائلية وتجمعات الأصدقاء.</p>
-
-                    <div class="card-divider"></div>
-
-                    <div class="card-meta">
-                        <div class="meta-item">
-                            <span class="meta-val">٢+</span>
-                            <span class="meta-lbl">لاعبين</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val">متنوع</span>
-                            <span class="meta-lbl">جولات</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val" style="color: #2ecc71;">29.00 SAR</span>
-                            <span class="meta-lbl">السعر</span>
-                        </div>
-                    </div>
-
-                    <a href="https://salla.sa/maben-al8lob/azPxNZl" class="btn-play" style="background: #2ecc71;">🛒
-                        اشتر الآن </a>
-                </div>
+            <div class="home-secondary-btns">
+                <button class="btn-home-sub" onclick="showSettings()">
+                    <span>⚙️</span><span>إعدادات</span>
+                </button>
+                <button class="btn-home-sub" onclick="showRules()">
+                    <span>💡</span><span>القوانين</span>
+                </button>
+                <a href="index.html" class="btn-home-sub">
+                    <span>🎮</span><span>المتجر</span>
+                </a>
+                <button class="btn-home-sub" onclick="alert('خروج')">
+                    <span>🚪</span><span>خروج</span>
+                </button>
             </div>
-
-            <!-- كرت جريء -->
-            <div class="game-card featured">
-                <div class="card-strip strip-blue" style="background: #9b59b6;"></div>
-                <div class="card-body">
-                    <div class="card-status status-live">متاح الآن</div>
-
-                    <div
-                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
-                        <img src="portal/bold_card.png" alt="كرت جريء"
-                            style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-
-                    <div class="card-name">كرت جريء</div>
-
-                    <div class="card-tags">
-                        <span class="tag tag-blue" style="background: #f3e5f5; color: #9b59b6;">جريء</span>
-                        <span class="tag tag-blue">تحديات</span>
-                        <span class="tag">جماعي</span>
-                        <span class="tag">15.00 SAR</span>
-                    </div>
-
-                    <p class="card-desc">🎯 جاوب بصراحة أو استعد تنكشف! 😈 هذا الكرت مو لأي أحد… بس للي عنده الجرأة
-                        يواجه الحقيقة بدون لفّ ودوران. جاهز تلعب؟ 😜🔥</p>
-
-                    <div class="card-divider"></div>
-
-                    <div class="card-meta">
-                        <div class="meta-item">
-                            <span class="meta-val">٢+</span>
-                            <span class="meta-lbl">لاعبين</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val">15</span>
-                            <span class="meta-lbl">بطاقات</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val" style="color: #9b59b6;">15.00 SAR</span>
-                            <span class="meta-lbl">السعر</span>
-                        </div>
-                    </div>
-
-                    <a href="https://salla.sa/maben-al8lob/vAoxxEZ" class="btn-play" style="background: #9b59b6;">🛒
-                        اشتر الآن </a>
-                </div>
-            </div>
-
-            <!-- مآبين آلقلوب 1 -->
-            <div class="game-card featured">
-                <div class="card-strip strip-blue" style="background: #d35400;"></div>
-                <div class="card-body">
-                    <div class="card-status status-live">متاح الآن</div>
-
-                    <div
-                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
-                        <img src="portal/maben_alqlub_1.png" alt="مآبين آلقلوب 1"
-                            style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-
-                    <div class="card-name">مآبين آلقلوب 1</div>
-
-                    <div class="card-tags">
-                        <span class="tag tag-blue" style="background: #fff5e6; color: #d35400;">عاطفي</span>
-                        <span class="tag tag-blue">عميق</span>
-                        <span class="tag">رقمي</span>
-                        <span class="tag">14.99 SAR</span>
-                    </div>
-
-                    <p class="card-desc">لعبة أسئلة تفتح مواضيع وتخليك تفكر وتفهم اللي تحبه أكثر. كل كرت بيخليك تشوف
-                        زاوية جديدة من الشخص اللي تحبه. مناسبة للأزواج والأصدقاء. ❤️</p>
-
-                    <div class="card-divider"></div>
-
-                    <div class="card-meta">
-                        <div class="meta-item">
-                            <span class="meta-val">٢</span>
-                            <span class="meta-lbl">لاعبين</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val">15</span>
-                            <span class="meta-lbl"> كرت</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val" style="color: #d35400;">14.99 SAR</span>
-                            <span class="meta-lbl">السعر</span>
-                        </div>
-                    </div>
-
-                    <a href="https://salla.sa/maben-al8lob/qGedWrK" class="btn-play" style="background: #d35400;">🛒
-                        اشتر الآن </a>
-                </div>
-            </div>
-
-            <!-- مآبين آلقلوب 2 -->
-            <div class="game-card featured">
-                <div class="card-strip strip-blue" style="background: #e74c3c;"></div>
-                <div class="card-body">
-                    <div class="card-status status-live">متاح الآن</div>
-
-                    <div
-                        style="width: 100%; height: 160px; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);">
-                        <img src="portal/maben_alqlub_2.png" alt="مآبين آلقلوب 2"
-                            style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-
-                    <div class="card-name">مآبين آلقلوب 2</div>
-
-                    <div class="card-tags">
-                        <span class="tag tag-blue" style="background: #fde8e8; color: #e74c3c;">عاطفي</span>
-                        <span class="tag tag-blue">اجتماعي</span>
-                        <span class="tag">بطاقات</span>
-                        <span class="tag">29.00 SAR</span>
-                    </div>
-
-                    <p class="card-desc">لعبة بطابع عاطفي واجتماعي، مصمّمة بأسلوب بسيط وممتع تخليك تتقرب من اللي حولك
-                        بطريقة مختلفة. تفتح قلوب، وتقرّب المسافات. 💞</p>
-
-                    <div class="card-divider"></div>
-
-                    <div class="card-meta">
-                        <div class="meta-item">
-                            <span class="meta-val">٢+</span>
-                            <span class="meta-lbl">لاعبين</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val">٣٥+</span>
-                            <span class="meta-lbl">كرت</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-val" style="color: #e74c3c;">29.00 SAR</span>
-                            <span class="meta-lbl">السعر</span>
-                        </div>
-                    </div>
-
-                    <a href="https://salla.sa/maben-al8lob/vAoxxEZ" class="btn-play" style="background: #e74c3c;">🛒
-                        اشتر الآن </a>
-                </div>
-            </div>
-
-            <!-- قريباً 1 -->
-            <div class="game-card">
-                <div class="card-strip strip-gray"></div>
-                <div class="card-body">
-                    <div class="card-status status-soon">قريباً</div>
-                    <div class="card-icon icon-gray">🧩</div>
-                    <div class="card-name dimmed">مشروع سري</div>
-                    <div class="card-tags" style="opacity:0.4;">
-                        <span class="tag">ألغاز</span>
-                        <span class="tag">استراتيجية</span>
-                    </div>
-                    <p class="card-desc" style="opacity:0.5;">شيء مختلف تماماً في الطريق. هوجاس تُفاجئكم بتجربة لم
-                        تتوقعوها.</p>
-                    <div class="card-divider"></div>
-                    <div class="card-meta" style="opacity:0.4;">
-                        <div class="meta-item"><span class="meta-val">—</span><span class="meta-lbl">لاعبين</span></div>
-                        <div class="meta-item"><span class="meta-val">—</span><span class="meta-lbl">مستويات</span>
-                        </div>
-                        <div class="meta-item"><span class="meta-val">—</span><span class="meta-lbl">السعر</span></div>
-                    </div>
-                    <div class="btn-disabled">⏳ قريباً</div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="coming-banner">
-            <div class="banner-icon">🚀</div>
-            <p class="banner-text">
-                <strong>هوجاس في طور الإبداع — </strong>
-                المزيد من الألعاب التفاعلية قادمة. تابعنا لتكون أول من يلعب.
-            </p>
         </div>
     </div>
 
-    <footer>
-        <span class="footer-brand">بلاي قراوند · هوجاس</span>
-        <span class="footer-copy">
-            © 2026 هوجاس — صُنع بالحب للاعبين العرب &nbsp;|&nbsp;
-            <a href="old.html" class="footer-link">العودة للعبة</a>
-        </span>
-    </footer>
 
+    <!-- ===== TRANSITION SCREEN ===== -->
+    <div class="transition-screen" id="transitionScreen" style="display:none;">
+        <div class="hex-bg-pattern"></div>
+        <div class="ts-content" id="tsContent"></div>
+    </div>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="logo-line1">حروف</span>
+            <span class="logo-line2">مـع</span>
+            <span class="logo-line3">هوجاس</span>
+        </div>
+
+        <div class="round-label" id="roundLabel">
+            <span>الجولة</span>
+            <span id="roundText">الأولى</span>
+            <span class="round-total" id="roundTotal"></span>
+        </div>
+
+        <div class="scores">
+            <div class="score-box" id="scoreBox1">
+                <span class="score-name" id="name1">الفريق ١</span>
+                <span class="score-num" id="score1">0</span>
+            </div>
+            <div class="score-box" id="scoreBox2">
+                <span class="score-name" id="name2">الفريق ٢</span>
+                <span class="score-num" id="score2">0</span>
+            </div>
+        </div>
+
+        <div class="sidebar-question" id="sidebarQuestion" style="display:none;">
+            <div class="sq-header">
+                <span class="sq-title">السؤال</span>
+                <span id="sqNum" class="sq-num"></span>
+            </div>
+            <div id="sqLoading" class="sq-loading" style="display:none;">
+                <div class="sq-spinner"></div>
+                <span style="font-size:0.9rem; margin-top:5px;">جاري التحميل...</span>
+            </div>
+            <div class="sq-content">
+                <div id="sqQuestion" class="sq-text"></div>
+                <div id="sqAnswer" class="sq-answer-wrap" style="display:none;">
+                    <div class="sq-answer-label">الإجابة:</div>
+                    <div id="sqAnswerText" class="sq-answer-text"></div>
+                </div>
+            </div>
+            <div class="sq-actions">
+                <button class="sq-btn sq-btn-reveal" id="sqRevealBtn" onclick="revealAnswer()">إظهار الإجابة</button>
+                <button class="sq-btn sq-btn-next" onclick="nextQuestion()">تغيير ↺</button>
+                <button class="sq-btn sq-btn-close" onclick="closeQuestionPanel()">إغلاق ✕</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN AREA ===== -->
+    <main class="main-area">
+        <div class="top-buttons">
+            <div class="game-menu-container">
+                <button class="btn-options" onclick="toggleGameMenu()">⚙️ الإعدادات</button>
+                <div class="game-dropdown" id="gameDropdown" style="display:none;">
+                    <button class="gd-item gd-highlight" onclick="resetGameGrid()">
+                        <span>بداية لعبة جديدة</span> ↺
+                    </button>
+                    <button class="gd-item" onclick="openBuzzerModal()">
+                        <span>الجرس</span> 🔔
+                    </button>
+                    <button class="gd-item" id="gdMuteBtn" onclick="toggleGameSound()">
+                        <span>إيقاف الصوت</span> 🔊
+                    </button>
+                    <button class="gd-item" onclick="showSettings()">
+                        <span>الإعدادات</span> ⚙️
+                    </button>
+                    <button class="gd-item" onclick="location.reload()">
+                        <span>الرجوع للرئيسية</span> 🏠
+                    </button>
+                </div>
+            </div>
+            <button class="btn-shuffle" onclick="shuffleBoard()">🔀 خلط الحروف</button>
+            <div class="timer-display" id="timerDisplay" style="display:none;">
+                <span id="timerTeam"></span>
+                <span id="timerSeconds">0</span>
+            </div>
+        </div>
+
+        <div class="board-wrap">
+            <div class="board-bg"></div>
+            <div class="board-container" id="boardContainer"></div>
+        </div>
+
+        <div class="team-picker" id="teamPicker" style="display:none;">
+            <span class="picker-label">اختر الفريق:</span>
+            <button class="pick-btn" id="pickBtn1" onclick="assignTeam('team1')">الفريق الأول</button>
+            <button class="pick-btn" id="pickBtn2" onclick="assignTeam('team2')">الفريق الثاني</button>
+            <button class="pick-btn btn-reclaim" onclick="unclaimCell()">↺ إرجاع الحرف</button>
+            <button class="pick-btn pick-cancel" onclick="cancelSelect()">✕ إلغاء</button>
+        </div>
+
+        <!-- Buzzer Participant Sub-view (Optional/Legacy within main) -->
+        <div id="buzzerParticipantView" class="home-screen buzzer-participant-view" style="display:none;">
+            <div class="hex-bg-pattern"></div>
+            <div class="logo-area" style="margin-bottom: 20px;">
+                <span class="logo-line3">جرس هوجاس</span>
+            </div>
+
+            <div id="buzzerSetupPhase" class="buzzer-setup-card">
+                <div class="buzzer-card-header">
+                    <h3>انضم للمنافسة</h3>
+                    <p>أدخل اسمك واختر فريقك</p>
+                </div>
+                <input type="text" id="buzzerPlayerName" placeholder="اكتب اسمك هنا..." class="buzzer-input">
+                <div class="buzzer-team-toggle">
+                    <button class="buzzer-team-btn" id="participantPickTeam1"
+                        onclick="participantSelectTeam('team1')">الفريق 1</button>
+                    <button class="buzzer-team-btn" id="participantPickTeam2"
+                        onclick="participantSelectTeam('team2')">الفريق 2</button>
+                </div>
+                <button onclick="participantJoin()" class="btn-pill"
+                    style="box-shadow: 0 4px 15px rgba(0,0,0,0.3);">دخول</button>
+            </div>
+
+            <div id="buzzerActionPhase" class="buzzer-action-phase" style="display:none;">
+                <div id="participantStatus" class="buzzer-status">انتظر المحرز...</div>
+                <button id="mainBuzzBtn" onclick="participantBuzz()">اضغط!</button>
+                <div class="buzzer-hint">سيتم تفعيل الزر عند فتح المحرز للسؤال</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== SETTINGS SCREEN ===== -->
+    <div class="settings-screen" id="settingsScreen" style="display:none;">
+        <div class="hex-bg-pattern"></div>
+        <div class="settings-container">
+            <div class="settings-layout">
+
+                <div class="settings-label">اسم المسابقة:</div>
+                <div class="settings-control">
+                    <input type="text" id="setCompName" class="input-pill" value="هوجاس">
+                </div>
+
+                <div class="settings-label">اسم الفريق الأول:</div>
+                <div class="settings-control">
+                    <input type="text" id="setTeam1Name" class="input-pill" value="الفريق الأول">
+                </div>
+
+                <div class="settings-label">اسم الفريق الثاني:</div>
+                <div class="settings-control">
+                    <input type="text" id="setTeam2Name" class="input-pill" value="الفريق الثاني">
+                </div>
+
+                <div class="settings-label">عدد جولات الفوز:</div>
+                <div class="settings-control toggle-group" id="setRoundsGroup">
+                    <button class="toggle-btn selected" data-value="3">ثلاث جولات</button>
+                    <button class="toggle-btn" data-value="2">جولتين</button>
+                    <button class="toggle-btn" data-value="1">جولة</button>
+                </div>
+
+                <div class="settings-label">نوع المقدم:</div>
+                <div class="settings-control toggle-group" id="setPresenterGroup">
+                    <button class="toggle-btn selected" data-value="ai">مقدم آلي</button>
+                    <button class="toggle-btn" data-value="human">مقدم بشري</button>
+                </div>
+
+                <div class="settings-label">لون الخلايا:</div>
+                <div class="settings-control colors-grid" id="setColorsGroup">
+                    <button class="color-pair selected" data-c1="orange" data-c2="purple">
+                        <div class="c-hex" style="background:#FF9800;"></div>
+                        <div class="c-hex" style="background:#8B5FBF;"></div>
+                    </button>
+                    <button class="color-pair" data-c1="darkblue" data-c2="red">
+                        <div class="c-hex" style="background:#1e3a8a;"></div>
+                        <div class="c-hex" style="background:#EF4444;"></div>
+                    </button>
+                    <button class="color-pair" data-c1="charcoal" data-c2="lightgreen">
+                        <div class="c-hex" style="background:#334155;"></div>
+                        <div class="c-hex" style="background:#a3e635;"></div>
+                    </button>
+                    <button class="color-pair" data-c1="blue" data-c2="pink">
+                        <div class="c-hex" style="background:#3B82F6;"></div>
+                        <div class="c-hex" style="background:#f472b6;"></div>
+                    </button>
+                </div>
+
+                <div class="settings-label">مؤقت الجرس:</div>
+                <div class="settings-control timers-grid">
+                    <div class="timer-box">
+                        <span class="timer-title">وقت الإجابة</span>
+                        <div class="timer-stepper">
+                            <button class="step-btn" onclick="adjTime('ansTime', 1)">+</button>
+                            <div class="step-val"><span id="ansTimeVal">3</span> ثانية</div>
+                            <button class="step-btn" onclick="adjTime('ansTime', -1)">-</button>
+                        </div>
+                    </div>
+                    <div class="timer-box">
+                        <span class="timer-title">وقت الفريق الآخر</span>
+                        <div class="timer-stepper">
+                            <button class="step-btn" onclick="adjTime('otherTime', 1)">+</button>
+                            <div class="step-val"><span id="otherTimeVal">10</span> ثانية</div>
+                            <button class="step-btn" onclick="adjTime('otherTime', -1)">-</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-label">الصوت:</div>
+                <div class="settings-control toggle-group" id="setSoundGroup">
+                    <button class="toggle-btn selected" data-value="on">تشغيل</button>
+                    <button class="toggle-btn" data-value="off">إيقاف</button>
+                </div>
+            </div>
+
+            <button class="btn-save" onclick="saveSettings()">💾 حفظ ورجوع</button>
+        </div>
+    </div>
+
+    <!-- ===== BUZZER SHARE MODAL ===== -->
+    <div id="buzzerShareModal" class="transition-screen modal-backdrop" style="display:none;">
+        <div class="modal-content-wrapper">
+            <button onclick="document.getElementById('buzzerShareModal').style.display='none'"
+                class="modal-close-corner">✕</button>
+            <h2 class="modal-title">جرس الجلسة</h2>
+            <div class="modal-grid">
+                <div class="modal-grid-item">
+                    <div class="modal-item-icon">🔗</div>
+                    <div class="modal-item-label">رابط الجلسة</div>
+                    <button onclick="copyBuzzerLink()" id="copyBuzzerBtn" class="btn-save"
+                        style="padding: 12px 24px; border-radius: 50px;">نسخ الرابط</button>
+                    <div id="modalBuzzerCodeTxt" style="display:none;">- - - -</div>
+                </div>
+                <div class="modal-grid-item modal-grid-item-alt">
+                    <div class="modal-item-icon">📱</div>
+                    <div class="modal-item-label modal-item-label-highlight">باركود</div>
+                    <div id="modalQrcodeBox" class="modal-qrcode-box"></div>
+                </div>
+            </div>
+            <button onclick="document.getElementById('buzzerShareModal').style.display='none'" class="btn-pill"
+                style="background: rgba(0,0,0,0.25);">إغلاق</button>
+        </div>
+    </div>
+
+    <audio id="bgMusic" src="sound/مقدمه.mp4" loop></audio>
+    <audio id="enterSound" src="sound/الدخول لخليه الحروف.mp4"></audio>
+    <audio id="clickSound" src="sound/ضغط.mp4"></audio>
+    <audio id="correctSound" src="sound/اجابه صحيحه.mp4"></audio>
+    <audio id="deleteSound" src="sound/حذف اجابه.mp4"></audio>
+
+    <!-- ===== RULES MODAL ===== -->
+    <div id="rulesModal" class="settings-screen"
+        style="display:none; justify-content: center; align-items: center; background: rgba(15, 5, 25, 0.95); z-index: 11000;">
+        <div class="hex-bg-pattern"></div>
+        <div class="modal-content-wrapper" style="max-height: 85vh; overflow-y: auto;">
+            <button onclick="closeRules()" class="modal-close-corner">✕</button>
+            <h2 class="modal-title">ماهي مسابقة حروف؟</h2>
+            <div
+                style="color: #fff; text-align: right; font-family: 'Cairo', sans-serif; font-size: 1.1rem; line-height: 1.8; padding: 0 10px;">
+                <p><strong> اللعبة:</strong> هي مسابقة ثقافية وذكاء تعتمد على سرعة البديهة والمعرفة، مستوحاة من برنامج
+                    سعودي قديم .</p>
+
+                <h3 style="color: #FFD600; font-family: 'Lalezar', sans-serif; margin-top: 20px;">طريقة اللعب:</h3>
+                <ul style="list-style: none; padding-right: 20px;">
+                    <li>🔹 يتنافس فريقان (البنفسجي والبرتقالي) على لوحة من الحروف السداسية.</li>
+                    <li>🔹 الفريق الذي يختار حرفاً عليه الإجابة على السؤال الخاص بذلك الحرف.</li>
+                    <li>🔹 إذا كانت الإجابة صحيحة، يمتلك الفريق الخلية على اللوحة بلونه.</li>
+                </ul>
+
+                <h3 style="color: #FFD600; font-family: 'Lalezar', sans-serif; margin-top: 20px;">هدف الفوز:</h3>
+                <p>الفريق الفائز هو من يستطيع تكوين <strong>خط متصل</strong> من لونه يربط بين جهتي اللوحة الخاصة به (من
+                    اليمين لليسار أو من الأعلى للأسفل حسب توزيع الفرق).</p>
+
+                <h3 style="color: #FFD600; font-family: 'Lalezar', sans-serif; margin-top: 20px;">الجرس:</h3>
+                <p>يمكن استخدام نظام الجرس (Buzzer) لتحديد من له حق الإجابة أسرع عند قراءة السؤال.</p>
+            </div>
+            <button onclick="closeRules()" class="btn-pill btn-yellow" style="margin-top: 30px;">فهمت، لنبدأ!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Fallback to ensure splash screen disappears and doesn't block clicks
+        setTimeout(() => {
+            const splash = document.getElementById('splashScreen');
+            if (splash) {
+                splash.style.display = 'none';
+                splash.style.pointerEvents = 'none';
+            }
+        }, 3500);
+    </script>
 </body>
 
 </html>
