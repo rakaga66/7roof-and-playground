@@ -13,7 +13,17 @@
     <script>if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
     <script src="pdfData.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://buzzer-server-production-331c.up.railway.app/socket.io/socket.io.js"></script>
+    
+    <!-- Auth Check -->
+    <script>
+        (function() {
+            const AUTH_SERVER = 'https://hojas-auth9-production.up.railway.app';
+            const token = localStorage.getItem('hojas_token');
+            if (!token) {
+                window.location.href = AUTH_SERVER + '/?redirect=' + encodeURIComponent(window.location.href);
+            }
+        })();
+    </script>
 </head>
 
 <body>
@@ -91,7 +101,7 @@
                     <button class="gd-item" onclick="showSettings()">
                         <span>الإعدادات</span> ⚙️
                     </button>
-                    <button class="gd-item" onclick="window.location.href='index.html'">
+                    <button class="gd-item" onclick="window.location.href='old.html'">
                         <span>الرجوع للرئيسية</span> 🏠
                     </button>
                 </div>
